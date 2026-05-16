@@ -823,7 +823,7 @@ body {
 // ════════════════════════════════════════════════════════════════════════════
 //  CONFIG — your Apps Script web app endpoint
 // ════════════════════════════════════════════════════════════════════════════
-const API_URL = "https://script.google.com/a/macros/laserpowerinfra.com/s/AKfycbw9mmLORN7o7_IIu0YvnfikXmAvaZDq2dyzCCOkkmzMwm1eA2c4pKgtvmLlnubSlBA/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzh9dXERfWuj9Y1SfnH6_F1LJD7dXgpZZwSxxa4UDwyATxH3-dc5xmalvQi6wU9unHU/exec";
 
 // ════════════════════════════════════════════════════════════════════════════
 //  STATE
@@ -846,23 +846,25 @@ function initials(name) {
     .map(w => w[0].toUpperCase()).join("") || "?";
 }
 
-// Derive avatar URL: explicit photo > unavatar.io from LinkedIn slug > null
+// Avatar URL — only use real LinkedIn DP (saved to Drive permanently by Apps Script).
+// If no DP available, return null → frontend shows clean initials placeholder.
+// NO fake generated avatars (no unavatar.io, no ui-avatars.com).
 function avatarUrl(card) {
   if (card.LINKEDIN_PHOTO_URL && /^https?:\/\//.test(card.LINKEDIN_PHOTO_URL)) {
     return card.LINKEDIN_PHOTO_URL;
   }
-  const m = String(card.LINKEDIN_URL || "").match(/linkedin\.com\/in\/([a-zA-Z0-9\-_%\.]+)/i);
-  if (m) return "https://unavatar.io/linkedin/" + m[1];
   return null;
 }
 
-// Render avatar HTML with onerror fallback to initials
+// Render avatar HTML — real DP if available, otherwise initials placeholder
 function avatarHTML(card, cls = "avatar") {
-  const url = avatarUrl(card);
-  const ini = initials(card.FULL_NAME);
+  const url     = avatarUrl(card);
+  const ini     = initials(card.FULL_NAME);
   const safeIni = escapeHtml(ini);
-  if (!url) return `<div class="${cls}-fb">${safeIni}</div>`;
-  return `<img class="${cls}" src="${escapeHtml(url)}" alt="${escapeHtml(card.FULL_NAME)}"
+  if (!url) {
+    return `<div class="${cls}-fb">${safeIni}</div>`;
+  }
+  return `<img class="${cls}" src="${escapeHtml(url)}" alt="${escapeHtml(card.FULL_NAME)}" loading="lazy"
     onerror="this.outerHTML='<div class=\\'${cls}-fb\\'>${safeIni}</div>'">`;
 }
 
