@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>The Directory — Business Cards</title>
+<meta name="description" content="A curated directory of business contacts">
+
+<!-- Fonts: Fraunces (distinctive display serif) + Inter Tight (refined body) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE DIRECTORY — Editorial Business Card Showcase
+   Aesthetic: Warm editorial magazine — refined, distinctive, never generic.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Palette: warm cream + deep ink + terracotta accent */
+  --bg:           #FAF7F2;
+  --bg-elevated: #FFFFFF;
+  --bg-tint:      #F1ECE3;
+  --ink:          #1A1614;
+  --ink-soft:     #4A453F;
+  --ink-mute:     #8A847B;
+  --line:         #E5DFD4;
+  --line-soft:    #EFEAE0;
+  --accent:       #C8553D;        /* warm terracotta */
+  --accent-soft:  #F4DCD2;
+  --accent-deep:  #8F3925;
+  --success:      #4A7C59;
+  --shadow-sm:    0 1px 2px rgba(26, 22, 20, 0.04);
+  --shadow-md:    0 4px 12px rgba(26, 22, 20, 0.06), 0 1px 3px rgba(26, 22, 20, 0.04);
+  --shadow-lg:    0 16px 40px rgba(26, 22, 20, 0.12), 0 4px 12px rgba(26, 22, 20, 0.06);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-image:
+    radial-gradient(circle at 90% 10%, rgba(200, 85, 61, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 10% 80%, rgba(74, 124, 89, 0.03) 0%, transparent 50%);
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
+
+/* ═════ Typography ═════ */
+.display {
+  font-family: 'Fraunces', Georgia, serif;
+  font-optical-sizing: auto;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78em;
+  letter-spacing: -0.01em;
+}
+
+/* ═════ Header ═════ */
+.masthead {
+  border-bottom: 1px solid var(--line);
+  padding: 32px 24px 28px;
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(12px);
+  background: rgba(250, 247, 242, 0.92);
+}
+
+.masthead-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: end;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.brand-mark {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ink-mute);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-mark::before {
+  content: "";
+  width: 24px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.brand-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(28px, 5vw, 44px);
+  letter-spacing: -0.025em;
+  color: var(--ink);
+}
+
+.brand-title em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.meta-strip {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  font-size: 12px;
+  color: var(--ink-mute);
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.04em;
+}
+
+.meta-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--success);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ═════ Toolbar ═════ */
+.toolbar {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px 24px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.search-box {
+  flex: 1;
+  min-width: 240px;
+  position: relative;
+}
+
+.search-box input {
+  width: 100%;
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  padding: 14px 16px 14px 44px;
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 15px;
+  color: var(--ink);
+  border-radius: 2px;
+  transition: all 0.2s ease;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.search-box::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--ink-mute);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.search-box::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 28px;
+  transform: translate(0%, 50%) rotate(45deg);
+  width: 7px;
+  height: 2px;
+  background: var(--ink-mute);
+  pointer-events: none;
+}
+
+.count-pill {
+  background: var(--ink);
+  color: var(--bg);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  padding: 8px 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 2px;
+}
+
+.refresh-btn {
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  padding: 12px 18px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.refresh-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.refresh-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ═════ Loading + Empty States ═════ */
+.state-msg {
+  max-width: 1400px;
+  margin: 80px auto;
+  padding: 0 24px;
+  text-align: center;
+}
+
+.state-msg .display {
+  font-size: 32px;
+  color: var(--ink);
+  margin-bottom: 12px;
+  font-style: italic;
+}
+
+.state-msg p {
+  color: var(--ink-mute);
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.loader {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--line);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 24px;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ═════ Card Grid ═════ */
+.grid {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 8px 24px 60px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 20px;
+}
+
+/* ═════ Card ═════ */
+.card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  opacity: 0;
+  animation: rise 0.5s ease-out forwards;
+}
+
+.card:hover {
+  border-color: var(--line);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.card-head {
+  padding: 24px 24px 16px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  border-bottom: 1px solid var(--line-soft);
+  position: relative;
+}
+
+.card-head::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 24px;
+  right: 24px;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.card:hover .card-head::before {
+  transform: scaleX(1);
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--bg-tint);
+  flex-shrink: 0;
+  border: 1px solid var(--line);
+}
+
+.avatar-fb {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--ink) 0%, var(--ink-soft) 100%);
+  color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.identity {
+  flex: 1;
+  min-width: 0;
+}
+
+.name {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+}
+
+.title {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+
+.company {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 3px 8px;
+  border-radius: 2px;
+}
+
+.confidence-mark {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.confidence-mark.high { color: var(--success); }
+.confidence-mark.low  { color: var(--accent); }
+
+.card-body {
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contact-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.4;
+}
+
+.contact-row .label {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-mute);
+  flex-shrink: 0;
+}
+
+.contact-row .label svg {
+  width: 14px;
+  height: 14px;
+}
+
+.contact-row a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contact-row a:hover { border-bottom-color: var(--accent); color: var(--accent); }
+
+.expand-section {
+  border-top: 1px solid var(--line-soft);
+  margin-top: auto;
+}
+
+.expand-btn {
+  width: 100%;
+  background: var(--bg-tint);
+  border: none;
+  padding: 14px 24px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.15s ease;
+}
+
+.expand-btn:hover { background: var(--accent-soft); color: var(--accent-deep); }
+
+.chevron {
+  width: 8px;
+  height: 8px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  margin-top: -2px;
+}
+
+/* ═════ Modal Drawer ═════ */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 22, 20, 0.4);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 100;
+}
+
+.drawer-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(560px, 100%);
+  background: var(--bg);
+  z-index: 101;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer.open { transform: translateX(0); }
+
+.drawer-head {
+  padding: 24px 28px 20px;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  z-index: 5;
+}
+
+.drawer-head .avatar,
+.drawer-head .avatar-fb {
+  width: 72px;
+  height: 72px;
+  font-size: 24px;
+}
+
+.drawer-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--line);
+  background: var(--bg-elevated);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.15s ease;
+}
+
+.drawer-close:hover { border-color: var(--accent); color: var(--accent); }
+
+.drawer-close::before,
+.drawer-close::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 1.5px;
+  background: currentColor;
+}
+
+.drawer-close::before { transform: rotate(45deg); }
+.drawer-close::after  { transform: rotate(-45deg); }
+
+.drawer-body {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-label::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.section-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1.25;
+  color: var(--ink);
+  letter-spacing: -0.015em;
+}
+
+.bullet-block {
+  background: var(--bg-elevated);
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  padding: 20px 22px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  white-space: pre-wrap;
+  font-family: 'Inter Tight', sans-serif;
+}
+
+.bullet-block strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.link-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.link-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  font-size: 12px;
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: all 0.15s ease;
+  font-family: 'Inter Tight', sans-serif;
+}
+
+.link-pill:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.link-pill svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+.source-list {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-mute);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.source-list a {
+  color: var(--ink-mute);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--line);
+  padding-bottom: 2px;
+  word-break: break-all;
+  transition: color 0.15s ease;
+}
+
+.source-list a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+.original-card-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px;
+  background: var(--ink);
+  color: var(--bg);
+  text-decoration: none;
+  border-radius: 2px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.original-card-btn:hover { background: var(--accent); }
+
+/* ═════ Footer ═════ */
+.footer {
+  max-width: 1400px;
+  margin: 60px auto 0;
+  padding: 32px 24px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-mute);
+  letter-spacing: 0.05em;
+}
+
+.footer a { color: var(--ink-soft); text-decoration: none; }
+.footer a:hover { color: var(--accent); }
+
+/* ═════ Mobile ═════ */
+@media (max-width: 720px) {
+  .masthead { padding: 20px 16px 16px; }
+  .masthead-inner { grid-template-columns: 1fr; gap: 12px; }
+  .meta-strip { font-size: 11px; }
+  .toolbar { padding: 16px; gap: 8px; }
+  .grid { grid-template-columns: 1fr; padding: 0 16px 40px; gap: 16px; }
+  .card-head { padding: 20px 20px 14px; gap: 14px; }
+  .name { font-size: 18px; }
+  .card-body { padding: 14px 20px; }
+  .expand-btn { padding: 12px 20px; }
+  .drawer { width: 100%; }
+  .drawer-head { padding: 20px; }
+  .drawer-body { padding: 20px; gap: 24px; }
+  .bullet-block { padding: 16px; font-size: 13px; }
+  .footer { flex-direction: column; text-align: center; padding: 24px 16px; }
+}
+
+/* ═════ Hidden state ═════ */
+.hidden { display: none !important; }
+.card.filtered-out { display: none; }
+</style>
+</head>
+<body>
+
+<!-- ═════ MASTHEAD ═════ -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="brand">
+      <div class="brand-mark">Vol. 01 · Laser Power Infra</div>
+      <h1 class="brand-title">The <em>Directory</em></h1>
+    </div>
+    <div class="meta-strip">
+      <span class="meta-item"><span class="meta-dot"></span> LIVE</span>
+      <span class="meta-item" id="meta-date"></span>
+    </div>
+  </div>
+</header>
+
+<!-- ═════ TOOLBAR ═════ -->
+<div class="toolbar">
+  <div class="search-box">
+    <input id="searchInput" type="text" placeholder="Search by name, company, role, email…" autocomplete="off">
+  </div>
+  <div class="count-pill" id="countPill">Loading…</div>
+  <button class="refresh-btn" id="refreshBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="23 4 23 10 17 10"></polyline>
+      <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+    </svg>
+    Refresh
+  </button>
+</div>
+
+<!-- ═════ STATES ═════ -->
+<div id="loadingState" class="state-msg">
+  <div class="loader"></div>
+  <h2 class="display">Fetching the directory<em>…</em></h2>
+  <p>Pulling latest cards from the registry.</p>
+</div>
+
+<div id="errorState" class="state-msg hidden">
+  <h2 class="display">Couldn't load the directory<em>.</em></h2>
+  <p id="errorText">Check your connection and try refreshing.</p>
+</div>
+
+<div id="emptyState" class="state-msg hidden">
+  <h2 class="display">No cards yet<em>.</em></h2>
+  <p>Scan business cards to populate the directory.</p>
+</div>
+
+<!-- ═════ GRID ═════ -->
+<main class="grid" id="grid"></main>
+
+<!-- ═════ DRAWER (Detail Modal) ═════ -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<aside class="drawer" id="drawer" aria-hidden="true"></aside>
+
+<!-- ═════ FOOTER ═════ -->
+<footer class="footer">
+  <span>© Laser Power Infra · Internal Directory</span>
+  <span id="footerCount"></span>
+</footer>
+
+<script>
+// ════════════════════════════════════════════════════════════════════════════
+//  CONFIG — your Apps Script web app endpoint
+// ════════════════════════════════════════════════════════════════════════════
+const API_URL = "https://script.google.com/a/macros/laserpowerinfra.com/s/AKfycbw9mmLORN7o7_IIu0YvnfikXmAvaZDq2dyzCCOkkmzMwm1eA2c4pKgtvmLlnubSlBA/exec";
+
+// ════════════════════════════════════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════════════════════════════════════
+let ALL_CARDS = [];
+
+// ════════════════════════════════════════════════════════════════════════════
+//  HELPERS
+// ════════════════════════════════════════════════════════════════════════════
+const $  = (sel) => document.querySelector(sel);
+const $$ = (sel) => document.querySelectorAll(sel);
+const escapeHtml = (str) => String(str ?? "").replace(/[&<>"']/g, (m) => ({
+  "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+})[m]);
+
+// Initials from full name (e.g. "Shaurin Shah" → "SS")
+function initials(name) {
+  return String(name || "?")
+    .trim().split(/\s+/).filter(Boolean).slice(0, 2)
+    .map(w => w[0].toUpperCase()).join("") || "?";
+}
+
+// Derive avatar URL: explicit photo > unavatar.io from LinkedIn slug > null
+function avatarUrl(card) {
+  if (card.LINKEDIN_PHOTO_URL && /^https?:\/\//.test(card.LINKEDIN_PHOTO_URL)) {
+    return card.LINKEDIN_PHOTO_URL;
+  }
+  const m = String(card.LINKEDIN_URL || "").match(/linkedin\.com\/in\/([a-zA-Z0-9\-_%\.]+)/i);
+  if (m) return "https://unavatar.io/linkedin/" + m[1];
+  return null;
+}
+
+// Render avatar HTML with onerror fallback to initials
+function avatarHTML(card, cls = "avatar") {
+  const url = avatarUrl(card);
+  const ini = initials(card.FULL_NAME);
+  const safeIni = escapeHtml(ini);
+  if (!url) return `<div class="${cls}-fb">${safeIni}</div>`;
+  return `<img class="${cls}" src="${escapeHtml(url)}" alt="${escapeHtml(card.FULL_NAME)}"
+    onerror="this.outerHTML='<div class=\\'${cls}-fb\\'>${safeIni}</div>'">`;
+}
+
+// Pretty-format a bullet block (with bold for "• Label:" prefix)
+function formatBullets(text) {
+  if (!text) return '<em style="color:var(--ink-mute);font-family:Fraunces,serif">Not enriched yet.</em>';
+  // Escape, then bold "• Label:" patterns and " - " sub-items
+  const safe = escapeHtml(text);
+  return safe
+    .replace(/^(•\s*[^:\n]+:)/gm, '<strong>$1</strong>')
+    .replace(/^(\s{2,}-\s)/gm, '    <span style="color:var(--accent)">▸</span> ');
+}
+
+// Confidence label
+function confidenceClass(conf) {
+  const c = String(conf || "").toLowerCase();
+  if (c.includes("high")) return "high";
+  if (c.includes("low"))  return "low";
+  return "";
+}
+
+// SVG icons
+const ICONS = {
+  email:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>',
+  phone:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
+  web:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+  map:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+  linkedin: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>',
+  external: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>'
+};
+
+// ════════════════════════════════════════════════════════════════════════════
+//  CARD RENDERING
+// ════════════════════════════════════════════════════════════════════════════
+function renderCard(card, idx) {
+  const name    = card.FULL_NAME || "Unknown";
+  const title   = card.DESIGNATION || "";
+  const company = card.COMPANY || "";
+  const confCls = confidenceClass(card.CONFIDENCE);
+
+  // Build contact rows (only show present fields)
+  const rows = [];
+  if (card.EMAILS) {
+    const first = String(card.EMAILS).split(",")[0].trim();
+    rows.push(`<div class="contact-row"><span class="label">${ICONS.email}</span><a href="mailto:${escapeHtml(first)}">${escapeHtml(card.EMAILS)}</a></div>`);
+  }
+  if (card.MOBILE) {
+    rows.push(`<div class="contact-row"><span class="label">${ICONS.phone}</span><a href="tel:${escapeHtml(String(card.MOBILE).replace(/\s+/g,''))}">${escapeHtml(card.MOBILE)}</a></div>`);
+  }
+  if (card.WEBSITE) {
+    const url = card.WEBSITE.startsWith("http") ? card.WEBSITE : "https://" + card.WEBSITE;
+    rows.push(`<div class="contact-row"><span class="label">${ICONS.web}</span><a href="${escapeHtml(url)}" target="_blank" rel="noopener">${escapeHtml(card.WEBSITE)}</a></div>`);
+  }
+  if (card.CITY || card.ADDRESS) {
+    const loc = [card.CITY, card.COUNTRY].filter(Boolean).join(", ") || card.ADDRESS;
+    rows.push(`<div class="contact-row"><span class="label">${ICONS.map}</span>${escapeHtml(loc)}</div>`);
+  }
+
+  const delayStyle = `style="animation-delay:${Math.min(idx * 40, 600)}ms"`;
+
+  return `
+  <article class="card" data-index="${idx}" ${delayStyle}>
+    <div class="card-head">
+      ${avatarHTML(card)}
+      <div class="identity">
+        <h3 class="name">${escapeHtml(name)}</h3>
+        ${title ? `<div class="title">${escapeHtml(title)}</div>` : ""}
+        ${company ? `<span class="company">${escapeHtml(company)}</span>` : ""}
+      </div>
+      ${confCls ? `<span class="confidence-mark ${confCls}">${escapeHtml(card.CONFIDENCE)}</span>` : ""}
+    </div>
+    ${rows.length ? `<div class="card-body">${rows.join("")}</div>` : ""}
+    <div class="expand-section">
+      <button class="expand-btn" data-idx="${idx}">
+        <span>View full profile</span>
+        <span class="chevron"></span>
+      </button>
+    </div>
+  </article>`;
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  DRAWER (Detail Modal)
+// ════════════════════════════════════════════════════════════════════════════
+function openDrawer(idx) {
+  const card = ALL_CARDS[idx];
+  if (!card) return;
+
+  const name    = card.FULL_NAME || "Unknown";
+  const title   = card.DESIGNATION || "";
+  const company = card.COMPANY || "";
+
+  // LinkedIn link (only if real profile URL)
+  const liUrl = String(card.LINKEDIN_URL || "");
+  const isRealLi = /linkedin\.com\/in\//i.test(liUrl);
+
+  // Other web profiles
+  const others = String(card.OTHER_WEB_PROFILES || "").split(/[\n,]/).map(s => s.trim()).filter(Boolean);
+
+  // Enrich sources
+  const sources = String(card.ENRICH_SOURCES || "").split(/[\n|,]/).map(s => s.trim()).filter(s => s && /^https?:\/\//.test(s));
+
+  // Build pills
+  const pills = [];
+  if (isRealLi) {
+    pills.push(`<a class="link-pill" href="${escapeHtml(liUrl)}" target="_blank" rel="noopener">${ICONS.linkedin}LinkedIn</a>`);
+  }
+  if (card.WEBSITE) {
+    const url = card.WEBSITE.startsWith("http") ? card.WEBSITE : "https://" + card.WEBSITE;
+    pills.push(`<a class="link-pill" href="${escapeHtml(url)}" target="_blank" rel="noopener">${ICONS.web}Website</a>`);
+  }
+  others.forEach(u => {
+    if (/^https?:\/\//.test(u)) {
+      try {
+        const host = new URL(u).hostname.replace(/^www\./, "");
+        pills.push(`<a class="link-pill" href="${escapeHtml(u)}" target="_blank" rel="noopener">${ICONS.external}${escapeHtml(host)}</a>`);
+      } catch(e) {}
+    }
+  });
+
+  const html = `
+    <header class="drawer-head">
+      ${avatarHTML(card)}
+      <div class="identity">
+        <h2 class="name" style="font-size:24px">${escapeHtml(name)}</h2>
+        ${title ? `<div class="title" style="font-size:14px">${escapeHtml(title)}</div>` : ""}
+        ${company ? `<span class="company">${escapeHtml(company)}</span>` : ""}
+      </div>
+      <button class="drawer-close" aria-label="Close" onclick="closeDrawer()"></button>
+    </header>
+    <div class="drawer-body">
+
+      ${pills.length ? `
+      <div class="section">
+        <div class="section-label">Connect</div>
+        <div class="link-pill-row">${pills.join("")}</div>
+      </div>` : ""}
+
+      <div class="section">
+        <div class="section-label">Personal Profile</div>
+        <h3 class="section-title">Career & background</h3>
+        <div class="bullet-block">${formatBullets(card.LINKEDIN_POSITION)}</div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Company</div>
+        <h3 class="section-title">${escapeHtml(company || "Organisation")}</h3>
+        <div class="bullet-block">${formatBullets(card.COMPANY_CORE_BUSINESS)}</div>
+      </div>
+
+      ${card.NOTES ? `
+      <div class="section">
+        <div class="section-label">Notes</div>
+        <div class="bullet-block">${escapeHtml(card.NOTES)}</div>
+      </div>` : ""}
+
+      ${sources.length ? `
+      <div class="section">
+        <div class="section-label">Sources</div>
+        <div class="source-list">
+          ${sources.slice(0, 8).map(s => `<a href="${escapeHtml(s)}" target="_blank" rel="noopener">${escapeHtml(s)}</a>`).join("")}
+        </div>
+      </div>` : ""}
+
+      ${card.DRIVE_FILE_URL ? `
+      <a class="original-card-btn" href="${escapeHtml(card.DRIVE_FILE_URL)}" target="_blank" rel="noopener">
+        View Original Card ${ICONS.external}
+      </a>` : ""}
+    </div>`;
+
+  const drawer = $("#drawer");
+  drawer.innerHTML = html;
+  drawer.classList.add("open");
+  drawer.setAttribute("aria-hidden", "false");
+  $("#drawerOverlay").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeDrawer() {
+  $("#drawer").classList.remove("open");
+  $("#drawer").setAttribute("aria-hidden", "true");
+  $("#drawerOverlay").classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  SEARCH FILTER
+// ════════════════════════════════════════════════════════════════════════════
+function applyFilter(q) {
+  const query = String(q || "").trim().toLowerCase();
+  const cards = $$(".card");
+  let visible = 0;
+  cards.forEach(c => {
+    const idx = +c.dataset.index;
+    const card = ALL_CARDS[idx];
+    const hay  = [
+      card.FULL_NAME, card.DESIGNATION, card.COMPANY,
+      card.EMAILS, card.MOBILE, card.WEBSITE, card.CITY,
+      card.LINKEDIN_POSITION, card.COMPANY_CORE_BUSINESS
+    ].filter(Boolean).join(" ").toLowerCase();
+    const match = !query || hay.includes(query);
+    c.classList.toggle("filtered-out", !match);
+    if (match) visible++;
+  });
+  $("#countPill").textContent = visible + " of " + ALL_CARDS.length;
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  DATA LOADING
+// ════════════════════════════════════════════════════════════════════════════
+async function loadCards() {
+  $("#loadingState").classList.remove("hidden");
+  $("#errorState").classList.add("hidden");
+  $("#emptyState").classList.add("hidden");
+  $("#grid").innerHTML = "";
+
+  try {
+    const res = await fetch(API_URL + "?format=json", {
+      method: "GET",
+      mode: "cors",
+      cache: "no-store"
+    });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+
+    ALL_CARDS = Array.isArray(data.cards) ? data.cards : [];
+    $("#loadingState").classList.add("hidden");
+
+    if (ALL_CARDS.length === 0) {
+      $("#emptyState").classList.remove("hidden");
+      $("#countPill").textContent = "0 cards";
+      $("#footerCount").textContent = "0 entries";
+      return;
+    }
+
+    // Render grid
+    $("#grid").innerHTML = ALL_CARDS.map((c, i) => renderCard(c, i)).join("");
+    $("#countPill").textContent = ALL_CARDS.length + " cards";
+    $("#footerCount").textContent = ALL_CARDS.length + " entries · updated " + new Date().toLocaleDateString();
+
+    // Wire up card click handlers
+    $$(".expand-btn").forEach(btn => {
+      btn.addEventListener("click", () => openDrawer(+btn.dataset.idx));
+    });
+    // Also clicking the card head opens the drawer
+    $$(".card-head").forEach((head, i) => {
+      head.style.cursor = "pointer";
+      head.addEventListener("click", () => openDrawer(+head.closest(".card").dataset.index));
+    });
+
+  } catch (err) {
+    console.error("Load error:", err);
+    $("#loadingState").classList.add("hidden");
+    $("#errorState").classList.remove("hidden");
+    $("#errorText").textContent = "Couldn't reach the directory API. " + err.message;
+    $("#countPill").textContent = "—";
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════════════════════════════════════
+document.addEventListener("DOMContentLoaded", () => {
+  // Date in masthead
+  const d = new Date();
+  $("#meta-date").textContent = d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }).toUpperCase();
+
+  // Search wiring
+  $("#searchInput").addEventListener("input", (e) => applyFilter(e.target.value));
+
+  // Refresh
+  $("#refreshBtn").addEventListener("click", loadCards);
+
+  // Drawer close on overlay click + ESC
+  $("#drawerOverlay").addEventListener("click", closeDrawer);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeDrawer();
+  });
+
+  // Load!
+  loadCards();
+});
+</script>
+
+</body>
+</html>
