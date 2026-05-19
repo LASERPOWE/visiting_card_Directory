@@ -18,7 +18,6 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 
 :root {
-  /* Palette: warm cream + deep ink + terracotta accent */
   --bg:           #FAF7F2;
   --bg-elevated:  #FFFFFF;
   --bg-tint:      #F1ECE3;
@@ -27,7 +26,7 @@
   --ink-mute:     #8A847B;
   --line:         #E5DFD4;
   --line-soft:    #EFEAE0;
-  --accent:       #C8553D;        /* warm terracotta */
+  --accent:       #C8553D;
   --accent-soft:  #F4DCD2;
   --accent-deep:  #8F3925;
   --success:      #4A7C59;
@@ -392,6 +391,7 @@ body {
   transform: scaleX(1);
 }
 
+/* Added zoom-in cursor for clickable images */
 .avatar {
   width: 56px;
   height: 56px;
@@ -400,6 +400,12 @@ body {
   background: var(--bg-tint);
   flex-shrink: 0;
   border: 1px solid var(--line);
+  cursor: zoom-in; 
+  transition: opacity 0.2s;
+}
+
+.avatar:hover {
+  opacity: 0.85;
 }
 
 .avatar-fb {
@@ -610,6 +616,7 @@ body {
   gap: 14px;
 }
 
+/* Zoom in cursor for small table avatar */
 .avatar-sm {
   width: 40px;
   height: 40px;
@@ -618,6 +625,12 @@ body {
   background: var(--bg-tint);
   border: 1px solid var(--line);
   flex-shrink: 0;
+  cursor: zoom-in;
+  transition: opacity 0.2s;
+}
+
+.avatar-sm:hover {
+  opacity: 0.85;
 }
 
 .avatar-sm-fb {
@@ -650,6 +663,75 @@ body {
   color: var(--ink-mute);
   line-height: 1.3;
 }
+
+/* ═════ Image Lightbox Modal ═════ */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 12, 10, 0.95);
+  backdrop-filter: blur(10px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.lightbox-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.lightbox-overlay img {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 4px;
+  box-shadow: var(--shadow-lg);
+  transform: scale(0.95);
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  object-fit: contain;
+}
+
+.lightbox-overlay.open img {
+  transform: scale(1);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: all 0.2s ease;
+  z-index: 201;
+}
+
+.lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.lightbox-close::before,
+.lightbox-close::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 1.5px;
+  background: currentColor;
+}
+
+.lightbox-close::before { transform: rotate(45deg); }
+.lightbox-close::after  { transform: rotate(-45deg); }
 
 /* ═════ Modal Drawer ═════ */
 .drawer-overlay {
@@ -996,6 +1078,12 @@ body {
   </table>
 </div>
 
+<!-- ═════ IMAGE LIGHTBOX ═════ -->
+<div class="lightbox-overlay" id="lightboxOverlay" aria-hidden="true">
+  <button class="lightbox-close" aria-label="Close image" onclick="closeLightbox()"></button>
+  <img id="lightboxImage" src="" alt="Full size view">
+</div>
+
 <!-- ═════ DRAWER (Detail Modal) ═════ -->
 <div class="drawer-overlay" id="drawerOverlay"></div>
 <aside class="drawer" id="drawer" aria-hidden="true"></aside>
@@ -1039,14 +1127,18 @@ function avatarUrl(card) {
   return null;
 }
 
+// Image pe click lagane ke liye (stopPropagation ke sath taki drawer na khule)
 function avatarHTML(card, cls = "avatar") {
   const url     = avatarUrl(card);
   const ini     = initials(card.FULL_NAME);
   const safeIni = escapeHtml(ini);
+  
   if (!url) {
     return `<div class="${cls}-fb">${safeIni}</div>`;
   }
+  
   return `<img class="${cls}" src="${escapeHtml(url)}" alt="${escapeHtml(card.FULL_NAME)}" loading="lazy"
+    onclick="openLightbox('${escapeHtml(url)}', event)"
     onerror="this.outerHTML='<div class=\\'${cls}-fb\\'>${safeIni}</div>'">`;
 }
 
@@ -1162,6 +1254,29 @@ function renderTableRow(card, idx) {
 }
 
 // ════════════════════════════════════════════════════════════════════════════
+//  IMAGE LIGHTBOX LOGIC
+// ════════════════════════════════════════════════════════════════════════════
+function openLightbox(url, e) {
+  if (e) e.stopPropagation(); // Drawer/Card click ko rokne ke liye
+  const overlay = $("#lightboxOverlay");
+  const img = $("#lightboxImage");
+  img.src = url;
+  overlay.classList.add("open");
+  overlay.setAttribute("aria-hidden", "false");
+}
+
+function closeLightbox() {
+  const overlay = $("#lightboxOverlay");
+  overlay.classList.remove("open");
+  overlay.setAttribute("aria-hidden", "true");
+  setTimeout(() => {
+    if (!overlay.classList.contains("open")) {
+      $("#lightboxImage").src = "";
+    }
+  }, 300);
+}
+
+// ════════════════════════════════════════════════════════════════════════════
 //  DRAWER (Detail Modal)
 // ════════════════════════════════════════════════════════════════════════════
 function openDrawer(idx) {
@@ -1269,7 +1384,6 @@ function applyFilter(q) {
     
     const match = !query || hay.includes(query);
     
-    // Toggle class on both Grid Card and Table Row
     const cardEl = $(`.card[data-index="${idx}"]`);
     const rowEl = $(`.table-row[data-index="${idx}"]`);
     
@@ -1312,33 +1426,37 @@ async function loadCards() {
       return;
     }
 
-    // Render both views
     $("#grid").innerHTML = ALL_CARDS.map((c, i) => renderCard(c, i)).join("");
     $("#tableBody").innerHTML = ALL_CARDS.map((c, i) => renderTableRow(c, i)).join("");
     
     $("#countPill").textContent = ALL_CARDS.length + " cards";
     $("#footerCount").textContent = ALL_CARDS.length + " entries · updated " + new Date().toLocaleDateString();
 
-    // Wire up clicks for Grid Cards
+    // Wiring Drawer Clicks
     $$(".expand-btn").forEach(btn => {
       btn.addEventListener("click", () => openDrawer(+btn.dataset.idx));
     });
+    
     $$(".card-head").forEach(head => {
       head.style.cursor = "pointer";
-      head.addEventListener("click", () => openDrawer(+head.closest(".card").dataset.index));
+      head.addEventListener("click", (e) => {
+        // Agar image par click hai, toh drawer nahi kholna hai
+        if (e.target.tagName.toLowerCase() !== 'img') {
+          openDrawer(+head.closest(".card").dataset.index);
+        }
+      });
     });
 
-    // Wire up clicks for Table Rows
     $$(".table-row").forEach(row => {
       row.addEventListener("click", (e) => {
-        // Don't trigger if they clicked an explicit link (like email/phone)
-        if (e.target.tagName.toLowerCase() !== 'a') {
+        // Mail/Phone link ya image par click ko ignore kare
+        const tag = e.target.tagName.toLowerCase();
+        if (tag !== 'a' && tag !== 'img') {
           openDrawer(+row.dataset.index);
         }
       });
     });
 
-    // Reapply filter in case they typed while it was loading
     applyFilter($("#searchInput").value);
 
   } catch (err) {
@@ -1371,25 +1489,31 @@ function setView(view) {
 //  INIT
 // ════════════════════════════════════════════════════════════════════════════
 document.addEventListener("DOMContentLoaded", () => {
-  // Date in masthead
   const d = new Date();
   $("#meta-date").textContent = d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }).toUpperCase();
 
-  // Search & Refresh wiring
   $("#searchInput").addEventListener("input", (e) => applyFilter(e.target.value));
   $("#refreshBtn").addEventListener("click", loadCards);
-
-  // View Toggle Wiring
   $("#btnCardView").addEventListener("click", () => setView('card'));
   $("#btnTableView").addEventListener("click", () => setView('table'));
 
-  // Drawer close on overlay click + ESC
   $("#drawerOverlay").addEventListener("click", closeDrawer);
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeDrawer();
+  
+  // Lightbox close on clicking outside image
+  $("#lightboxOverlay").addEventListener("click", (e) => {
+    if (e.target === $("#lightboxOverlay")) closeLightbox();
   });
 
-  // Load data!
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      if ($("#lightboxOverlay").classList.contains("open")) {
+        closeLightbox();
+      } else {
+        closeDrawer();
+      }
+    }
+  });
+
   loadCards();
 });
 </script>
