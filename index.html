@@ -20,7 +20,7 @@
 :root {
   /* Palette: warm cream + deep ink + terracotta accent */
   --bg:           #FAF7F2;
-  --bg-elevated: #FFFFFF;
+  --bg-elevated:  #FFFFFF;
   --bg-tint:      #F1ECE3;
   --ink:          #1A1614;
   --ink-soft:     #4A453F;
@@ -230,6 +230,46 @@ body {
   border-radius: 2px;
 }
 
+/* View Toggle */
+.view-toggle {
+  display: flex;
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.view-btn {
+  background: none;
+  border: none;
+  padding: 10px 14px;
+  color: var(--ink-mute);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.view-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.view-btn.active {
+  background: var(--ink-soft);
+  color: var(--bg);
+}
+
+.view-btn:not(.active):hover {
+  background: var(--bg-tint);
+  color: var(--ink);
+}
+
 .refresh-btn {
   background: var(--bg-elevated);
   border: 1px solid var(--line);
@@ -422,7 +462,6 @@ body {
   text-transform: uppercase;
   color: var(--ink-mute);
 }
-
 .confidence-mark.high { color: var(--success); }
 .confidence-mark.low  { color: var(--accent); }
 
@@ -502,6 +541,114 @@ body {
   transform: rotate(45deg);
   transition: transform 0.2s ease;
   margin-top: -2px;
+}
+
+/* ═════ Table View ═════ */
+.table-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 8px 24px 60px;
+  overflow-x: auto;
+}
+
+.directory-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px; /* Forces scroll on small screens */
+  background: var(--bg-elevated);
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.directory-table th {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  padding: 16px 20px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+}
+
+.directory-table td {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 14px;
+  color: var(--ink-soft);
+  vertical-align: middle;
+}
+
+.directory-table tr.table-row {
+  cursor: pointer;
+  transition: background 0.15s ease;
+  opacity: 0;
+  animation: rise 0.5s ease-out forwards;
+}
+
+.directory-table tr.table-row:hover {
+  background: var(--bg-tint);
+}
+
+.directory-table a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.directory-table a:hover {
+  border-bottom-color: var(--accent);
+  color: var(--accent);
+}
+
+.td-user {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.avatar-sm {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--bg-tint);
+  border: 1px solid var(--line);
+  flex-shrink: 0;
+}
+
+.avatar-sm-fb {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--ink) 0%, var(--ink-soft) 100%);
+  color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.name-sm {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--ink);
+  margin-bottom: 2px;
+  line-height: 1.2;
+}
+
+.title-sm {
+  font-size: 12px;
+  color: var(--ink-mute);
+  line-height: 1.3;
 }
 
 /* ═════ Modal Drawer ═════ */
@@ -742,6 +889,7 @@ body {
   .meta-strip { font-size: 11px; }
   .toolbar { padding: 16px; gap: 8px; }
   .grid { grid-template-columns: 1fr; padding: 0 16px 40px; gap: 16px; }
+  .table-container { padding: 0 16px 40px; }
   .card-head { padding: 20px 20px 14px; gap: 14px; }
   .name { font-size: 18px; }
   .card-body { padding: 14px 20px; }
@@ -755,7 +903,7 @@ body {
 
 /* ═════ Hidden state ═════ */
 .hidden { display: none !important; }
-.card.filtered-out { display: none; }
+.card.filtered-out, .table-row.filtered-out { display: none !important; }
 </style>
 </head>
 <body>
@@ -779,7 +927,29 @@ body {
   <div class="search-box">
     <input id="searchInput" type="text" placeholder="Search by name, company, role, email…" autocomplete="off">
   </div>
+  
+  <div class="view-toggle">
+    <button id="btnCardView" class="view-btn active" title="Card View">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="7" height="7"></rect>
+        <rect x="14" y="3" width="7" height="7"></rect>
+        <rect x="14" y="14" width="7" height="7"></rect>
+        <rect x="3" y="14" width="7" height="7"></rect>
+      </svg>
+      Cards
+    </button>
+    <button id="btnTableView" class="view-btn" title="Table View">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+      Table
+    </button>
+  </div>
+
   <div class="count-pill" id="countPill">Loading…</div>
+  
   <button class="refresh-btn" id="refreshBtn">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="23 4 23 10 17 10"></polyline>
@@ -806,8 +976,25 @@ body {
   <p>Scan business cards to populate the directory.</p>
 </div>
 
-<!-- ═════ GRID ═════ -->
+<!-- ═════ VIEWS ═════ -->
+<!-- View 1: Grid (Default) -->
 <main class="grid" id="grid"></main>
+
+<!-- View 2: Table -->
+<div class="table-container hidden" id="tableContainer">
+  <table class="directory-table">
+    <thead>
+      <tr>
+        <th>Identity</th>
+        <th>Company</th>
+        <th>Contact</th>
+        <th>Location</th>
+        <th>Score</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+</div>
 
 <!-- ═════ DRAWER (Detail Modal) ═════ -->
 <div class="drawer-overlay" id="drawerOverlay"></div>
@@ -821,7 +1008,7 @@ body {
 
 <script>
 // ════════════════════════════════════════════════════════════════════════════
-//  CONFIG — your Apps Script web app endpoint
+//  CONFIG
 // ════════════════════════════════════════════════════════════════════════════
 const API_URL = "https://script.google.com/macros/s/AKfycbzh9dXERfWuj9Y1SfnH6_F1LJD7dXgpZZwSxxa4UDwyATxH3-dc5xmalvQi6wU9unHU/exec";
 
@@ -839,16 +1026,12 @@ const escapeHtml = (str) => String(str ?? "").replace(/[&<>"']/g, (m) => ({
   "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
 })[m]);
 
-// Initials from full name (e.g. "Shaurin Shah" → "SS")
 function initials(name) {
   return String(name || "?")
     .trim().split(/\s+/).filter(Boolean).slice(0, 2)
     .map(w => w[0].toUpperCase()).join("") || "?";
 }
 
-// Avatar URL — only use real LinkedIn DP (saved to Drive permanently by Apps Script).
-// If no DP available, return null → frontend shows clean initials placeholder.
-// NO fake generated avatars (no unavatar.io, no ui-avatars.com).
 function avatarUrl(card) {
   if (card.LINKEDIN_PHOTO_URL && /^https?:\/\//.test(card.LINKEDIN_PHOTO_URL)) {
     return card.LINKEDIN_PHOTO_URL;
@@ -856,7 +1039,6 @@ function avatarUrl(card) {
   return null;
 }
 
-// Render avatar HTML — real DP if available, otherwise initials placeholder
 function avatarHTML(card, cls = "avatar") {
   const url     = avatarUrl(card);
   const ini     = initials(card.FULL_NAME);
@@ -868,17 +1050,14 @@ function avatarHTML(card, cls = "avatar") {
     onerror="this.outerHTML='<div class=\\'${cls}-fb\\'>${safeIni}</div>'">`;
 }
 
-// Pretty-format a bullet block (with bold for "• Label:" prefix)
 function formatBullets(text) {
   if (!text) return '<em style="color:var(--ink-mute);font-family:Fraunces,serif">Not enriched yet.</em>';
-  // Escape, then bold "• Label:" patterns and " - " sub-items
   const safe = escapeHtml(text);
   return safe
     .replace(/^(•\s*[^:\n]+:)/gm, '<strong>$1</strong>')
     .replace(/^(\s{2,}-\s)/gm, '    <span style="color:var(--accent)">▸</span> ');
 }
 
-// Confidence label
 function confidenceClass(conf) {
   const c = String(conf || "").toLowerCase();
   if (c.includes("high")) return "high";
@@ -886,7 +1065,6 @@ function confidenceClass(conf) {
   return "";
 }
 
-// SVG icons
 const ICONS = {
   email:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>',
   phone:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
@@ -897,7 +1075,7 @@ const ICONS = {
 };
 
 // ════════════════════════════════════════════════════════════════════════════
-//  CARD RENDERING
+//  RENDER FUNCTIONS
 // ════════════════════════════════════════════════════════════════════════════
 function renderCard(card, idx) {
   const name    = card.FULL_NAME || "Unknown";
@@ -905,7 +1083,6 @@ function renderCard(card, idx) {
   const company = card.COMPANY || "";
   const confCls = confidenceClass(card.CONFIDENCE);
 
-  // Build contact rows (only show present fields)
   const rows = [];
   if (card.EMAILS) {
     const first = String(card.EMAILS).split(",")[0].trim();
@@ -946,6 +1123,44 @@ function renderCard(card, idx) {
   </article>`;
 }
 
+function renderTableRow(card, idx) {
+  const name    = card.FULL_NAME || "Unknown";
+  const title   = card.DESIGNATION || "";
+  const company = card.COMPANY || "";
+  const confCls = confidenceClass(card.CONFIDENCE);
+  
+  const email = card.EMAILS ? String(card.EMAILS).split(",")[0].trim() : "";
+  const phone = card.MOBILE ? String(card.MOBILE).split(",")[0].trim() : "";
+  const loc = [card.CITY, card.COUNTRY].filter(Boolean).join(", ") || card.ADDRESS || "-";
+
+  const delayStyle = `style="animation-delay:${Math.min(idx * 20, 600)}ms"`;
+
+  return `
+  <tr class="table-row" data-index="${idx}" ${delayStyle}>
+    <td>
+      <div class="td-user">
+        ${avatarHTML(card, 'avatar-sm')}
+        <div>
+          <div class="name-sm">${escapeHtml(name)}</div>
+          ${title ? `<div class="title-sm">${escapeHtml(title)}</div>` : ""}
+        </div>
+      </div>
+    </td>
+    <td>${company ? `<span class="company">${escapeHtml(company)}</span>` : '<span style="color:var(--ink-mute)">-</span>'}</td>
+    <td>
+      <div style="display:flex; flex-direction:column; gap:4px; font-size:13px;">
+        ${email ? `<a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a>` : ""}
+        ${phone ? `<a href="tel:${escapeHtml(phone.replace(/\s+/g,''))}">${escapeHtml(phone)}</a>` : ""}
+        ${!email && !phone ? '<span style="color:var(--ink-mute)">-</span>' : ""}
+      </div>
+    </td>
+    <td style="font-size:13px;">${escapeHtml(loc)}</td>
+    <td>
+      ${confCls ? `<span class="confidence-mark ${confCls}" style="position:static">${escapeHtml(card.CONFIDENCE)}</span>` : '<span style="color:var(--ink-mute)">-</span>'}
+    </td>
+  </tr>`;
+}
+
 // ════════════════════════════════════════════════════════════════════════════
 //  DRAWER (Detail Modal)
 // ════════════════════════════════════════════════════════════════════════════
@@ -957,17 +1172,11 @@ function openDrawer(idx) {
   const title   = card.DESIGNATION || "";
   const company = card.COMPANY || "";
 
-  // LinkedIn link (only if real profile URL)
   const liUrl = String(card.LINKEDIN_URL || "");
   const isRealLi = /linkedin\.com\/in\//i.test(liUrl);
-
-  // Other web profiles
   const others = String(card.OTHER_WEB_PROFILES || "").split(/[\n,]/).map(s => s.trim()).filter(Boolean);
-
-  // Enrich sources
   const sources = String(card.ENRICH_SOURCES || "").split(/[\n|,]/).map(s => s.trim()).filter(s => s && /^https?:\/\//.test(s));
 
-  // Build pills
   const pills = [];
   if (isRealLi) {
     pills.push(`<a class="link-pill" href="${escapeHtml(liUrl)}" target="_blank" rel="noopener">${ICONS.linkedin}LinkedIn</a>`);
@@ -996,31 +1205,26 @@ function openDrawer(idx) {
       <button class="drawer-close" aria-label="Close" onclick="closeDrawer()"></button>
     </header>
     <div class="drawer-body">
-
       ${pills.length ? `
       <div class="section">
         <div class="section-label">Connect</div>
         <div class="link-pill-row">${pills.join("")}</div>
       </div>` : ""}
-
       <div class="section">
         <div class="section-label">Personal Profile</div>
         <h3 class="section-title">Career & background</h3>
         <div class="bullet-block">${formatBullets(card.LINKEDIN_POSITION)}</div>
       </div>
-
       <div class="section">
         <div class="section-label">Company</div>
         <h3 class="section-title">${escapeHtml(company || "Organisation")}</h3>
         <div class="bullet-block">${formatBullets(card.COMPANY_CORE_BUSINESS)}</div>
       </div>
-
       ${card.NOTES ? `
       <div class="section">
         <div class="section-label">Notes</div>
         <div class="bullet-block">${escapeHtml(card.NOTES)}</div>
       </div>` : ""}
-
       ${sources.length ? `
       <div class="section">
         <div class="section-label">Sources</div>
@@ -1028,7 +1232,6 @@ function openDrawer(idx) {
           ${sources.slice(0, 8).map(s => `<a href="${escapeHtml(s)}" target="_blank" rel="noopener">${escapeHtml(s)}</a>`).join("")}
         </div>
       </div>` : ""}
-
       ${card.DRIVE_FILE_URL ? `
       <a class="original-card-btn" href="${escapeHtml(card.DRIVE_FILE_URL)}" target="_blank" rel="noopener">
         View Original Card ${ICONS.external}
@@ -1055,20 +1258,27 @@ function closeDrawer() {
 // ════════════════════════════════════════════════════════════════════════════
 function applyFilter(q) {
   const query = String(q || "").trim().toLowerCase();
-  const cards = $$(".card");
   let visible = 0;
-  cards.forEach(c => {
-    const idx = +c.dataset.index;
-    const card = ALL_CARDS[idx];
-    const hay  = [
+  
+  ALL_CARDS.forEach((card, idx) => {
+    const hay = [
       card.FULL_NAME, card.DESIGNATION, card.COMPANY,
       card.EMAILS, card.MOBILE, card.WEBSITE, card.CITY,
       card.LINKEDIN_POSITION, card.COMPANY_CORE_BUSINESS
     ].filter(Boolean).join(" ").toLowerCase();
+    
     const match = !query || hay.includes(query);
-    c.classList.toggle("filtered-out", !match);
+    
+    // Toggle class on both Grid Card and Table Row
+    const cardEl = $(`.card[data-index="${idx}"]`);
+    const rowEl = $(`.table-row[data-index="${idx}"]`);
+    
+    if (cardEl) cardEl.classList.toggle("filtered-out", !match);
+    if (rowEl) rowEl.classList.toggle("filtered-out", !match);
+    
     if (match) visible++;
   });
+  
   $("#countPill").textContent = visible + " of " + ALL_CARDS.length;
 }
 
@@ -1079,7 +1289,9 @@ async function loadCards() {
   $("#loadingState").classList.remove("hidden");
   $("#errorState").classList.add("hidden");
   $("#emptyState").classList.add("hidden");
+  
   $("#grid").innerHTML = "";
+  $("#tableBody").innerHTML = "";
 
   try {
     const res = await fetch(API_URL + "?format=json", {
@@ -1100,20 +1312,34 @@ async function loadCards() {
       return;
     }
 
-    // Render grid
+    // Render both views
     $("#grid").innerHTML = ALL_CARDS.map((c, i) => renderCard(c, i)).join("");
+    $("#tableBody").innerHTML = ALL_CARDS.map((c, i) => renderTableRow(c, i)).join("");
+    
     $("#countPill").textContent = ALL_CARDS.length + " cards";
     $("#footerCount").textContent = ALL_CARDS.length + " entries · updated " + new Date().toLocaleDateString();
 
-    // Wire up card click handlers
+    // Wire up clicks for Grid Cards
     $$(".expand-btn").forEach(btn => {
       btn.addEventListener("click", () => openDrawer(+btn.dataset.idx));
     });
-    // Also clicking the card head opens the drawer
-    $$(".card-head").forEach((head, i) => {
+    $$(".card-head").forEach(head => {
       head.style.cursor = "pointer";
       head.addEventListener("click", () => openDrawer(+head.closest(".card").dataset.index));
     });
+
+    // Wire up clicks for Table Rows
+    $$(".table-row").forEach(row => {
+      row.addEventListener("click", (e) => {
+        // Don't trigger if they clicked an explicit link (like email/phone)
+        if (e.target.tagName.toLowerCase() !== 'a') {
+          openDrawer(+row.dataset.index);
+        }
+      });
+    });
+
+    // Reapply filter in case they typed while it was loading
+    applyFilter($("#searchInput").value);
 
   } catch (err) {
     console.error("Load error:", err);
@@ -1125,6 +1351,23 @@ async function loadCards() {
 }
 
 // ════════════════════════════════════════════════════════════════════════════
+//  VIEW TOGGLE
+// ════════════════════════════════════════════════════════════════════════════
+function setView(view) {
+  if (view === 'table') {
+    $("#grid").classList.add("hidden");
+    $("#tableContainer").classList.remove("hidden");
+    $("#btnCardView").classList.remove("active");
+    $("#btnTableView").classList.add("active");
+  } else {
+    $("#grid").classList.remove("hidden");
+    $("#tableContainer").classList.add("hidden");
+    $("#btnCardView").classList.add("active");
+    $("#btnTableView").classList.remove("active");
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════════════
 //  INIT
 // ════════════════════════════════════════════════════════════════════════════
 document.addEventListener("DOMContentLoaded", () => {
@@ -1132,11 +1375,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const d = new Date();
   $("#meta-date").textContent = d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }).toUpperCase();
 
-  // Search wiring
+  // Search & Refresh wiring
   $("#searchInput").addEventListener("input", (e) => applyFilter(e.target.value));
-
-  // Refresh
   $("#refreshBtn").addEventListener("click", loadCards);
+
+  // View Toggle Wiring
+  $("#btnCardView").addEventListener("click", () => setView('card'));
+  $("#btnTableView").addEventListener("click", () => setView('table'));
 
   // Drawer close on overlay click + ESC
   $("#drawerOverlay").addEventListener("click", closeDrawer);
@@ -1144,7 +1389,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key === "Escape") closeDrawer();
   });
 
-  // Load!
+  // Load data!
   loadCards();
 });
 </script>
